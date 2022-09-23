@@ -116,11 +116,11 @@ public class BookStoreUserServices implements IUserServices {
     }
 
     @Override
-    public Response verifyUser(String token) {
+    public BookStoreUser verifyUser(String token) {
         long userId=tokenUtl.decodeToken(token);
         Optional<BookStoreUser> bookStoreUser=bookStoreUserRepository.findById(userId);
         if (bookStoreUser.isPresent()){
-            return new Response("valid user",200,bookStoreUser.get());
+            return bookStoreUser.get();
         }
         throw new UserNotFound(400, "user not found !");
 
@@ -152,6 +152,7 @@ public class BookStoreUserServices implements IUserServices {
         }
         throw new UserNotFound(400, "user not found !");
     }
+
 
 
 }

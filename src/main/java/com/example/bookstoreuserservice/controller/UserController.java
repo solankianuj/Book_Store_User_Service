@@ -52,9 +52,9 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/verify/{token}")
-    public ResponseEntity<Response> verifyUser(@PathVariable String token){
-        Response response=this.bookStoreUserServices.verifyUser(token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<BookStoreUser> verifyUser(@PathVariable String token){
+        BookStoreUser bookStoreUser=this.bookStoreUserServices.verifyUser(token);
+        return new ResponseEntity<>(bookStoreUser, HttpStatus.OK);
     }
     @GetMapping("/generateOTP/{token}")
     public ResponseEntity<Response> generatingOtp(@PathVariable String token){
