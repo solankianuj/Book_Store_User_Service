@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Data
 public class BookStoreUserDTO {
 
+
     private String firstName;
     private String lastName;
     private String emailId;

@@ -15,6 +15,13 @@ import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Random;
 
+
+/**
+ * Purpose-implementation of user operation APIs logic.
+ * @author anuj solanki
+ * @date 20/09/2022
+ * @version 1.0
+ */
 @Service
 public class BookStoreUserServices implements IUserServices {
 
@@ -30,6 +37,11 @@ public class BookStoreUserServices implements IUserServices {
     @Autowired
     MailServices mailServices;
 
+    /**
+     * purpose-Logic implementation of API to register user.
+     * @param userDTO
+     * @return
+     */
     @Override
     public Response userRegistration(BookStoreUserDTO userDTO) {
         BookStoreUser bookStoreUser = new BookStoreUser(userDTO);
@@ -40,6 +52,12 @@ public class BookStoreUserServices implements IUserServices {
         return new Response("Registration successfully.",200, bookStoreUser);
     }
 
+    /**
+     * purpose-Logic implementation of API to login user.
+     * @param emailId
+     * @param password
+     * @return
+     */
     @Override
     public Response userLogin(String emailId, String password) {
         Optional<BookStoreUser> bookStoreUser = bookStoreUserRepository.findByEmailId(emailId);
@@ -53,6 +71,11 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400, "user not found !");
     }
 
+    /**
+     * purpose-Logic implementation of API to fetch user.
+     * @param token
+     * @return
+     */
     @Override
     public Response getUSer(String token) {
         long userId=tokenUtl.decodeToken(token);
@@ -63,6 +86,12 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400,"user not found !");
     }
 
+    /**
+     * purpose-Logic implementation of API to update user details.
+     * @param token
+     * @param userDTO
+     * @return
+     */
     @Override
     public Response updateUser(String token, BookStoreUserDTO userDTO) {
         long userId=tokenUtl.decodeToken(token);
@@ -79,6 +108,11 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400,"user not found !");
     }
 
+    /**
+     * purpose-Logic implementation of API to delete user.
+     * @param token
+     * @return
+     */
     @Override
     public Response deleteUser(String token) {
         long userId=tokenUtl.decodeToken(token);
@@ -90,6 +124,12 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400, "user not found !");
     }
 
+    /**
+     * purpose-Logic implementation of API to reset password.
+     * @param token
+     * @param newPwd
+     * @return
+     */
     @Override
     public Response resetPassword(String token, String newPwd) {
         long userId=tokenUtl.decodeToken(token);
@@ -103,6 +143,12 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400, "user not found !");
     }
 
+    /**
+     * purpose-Logic implementation of API to forget password.
+     * @param emailId
+     * @param newPwd
+     * @return
+     */
     @Override
     public Response forgetPassword(String emailId,String newPwd) {
         Optional<BookStoreUser> bookStoreUser=bookStoreUserRepository.findByEmailId(emailId);
@@ -115,6 +161,11 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400, "user not found !");
     }
 
+    /**
+     * purpose-Logic implementation of API to verify user.
+     * @param token
+     * @return
+     */
     @Override
     public BookStoreUser verifyUser(String token) {
         long userId=tokenUtl.decodeToken(token);
@@ -126,6 +177,11 @@ public class BookStoreUserServices implements IUserServices {
 
     }
 
+    /**
+     * purpose-Logic implementation of API to generate otp.
+     * @param token
+     * @return
+     */
     @Override
     public Response generatingOTP(String token) {
         long userId=tokenUtl.decodeToken(token);
@@ -140,6 +196,12 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400, "user not found !");
     }
 
+    /**
+     * purpose-Logic implementation of API to verify otp.
+     * @param token
+     * @param otp
+     * @return
+     */
     @Override
     public Response verifyOTP(String token,long otp) {
         long userId=tokenUtl.decodeToken(token);
