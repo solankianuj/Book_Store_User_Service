@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Optional;
 import java.util.Random;
 
@@ -215,6 +216,37 @@ public class BookStoreUserServices implements IUserServices {
         throw new UserNotFound(400, "user not found !");
     }
 
+    @Override
+    public Response purchesSubscription(String token) {
+        if (token!=null){
+            long userId=tokenUtl.decodeToken(token);
+            Optional<BookStoreUser> bookStoreUser=bookStoreUserRepository.findById(userId);
+            if (bookStoreUser.isPresent()){
+                bookStoreUser.get().setPurchaseDate(LocalDate.now());
+                LocalDate expireDate= bookStoreUser.get().getPurchaseDate().plusYears(1);
+                bookStoreUser.get().setExpireDate(expireDate);
+                bookStoreUserRepository.save(bookStoreUser.get());
+                return new Response("Annual Subscription successfully.",200,bookStoreUser.get());
+            }
+            throw new UserNotFound(400, "you need to login first !");
+        }
+        throw new UserNotFound(400, "user not found !");
+    }
+
+    @Override
+    public Response subscriptionEndingInfo(String token) {
+        long userId=tokenUtl.decodeToken(token);
+        Optional<BookStoreUser> bookStoreUser=bookStoreUserRepository.findById(userId);
+        if (bookStoreUser.isPresent()){
+            if (bookStoreUser.get().getExpireDate().equals(LocalDate.now()))
+            {
+                mailServices.send(bookStoreUser.get().getEmailId(),"Book Store Subscription",bookStoreUser.get().getFirstName()+"  your subscription is ending today,to continue the service update your subscription.\n"+"Thank-you");
+                return null;
+            }
+            throw new UserNotFound(400, "Subscription is not end yet !");
+        }
+        throw new UserNotFound(400, "user not found !");
+    }
 
 
 }

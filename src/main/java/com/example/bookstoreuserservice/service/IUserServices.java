@@ -15,4 +15,6 @@ public interface IUserServices {
     public BookStoreUser verifyUser(String token);
     public Response generatingOTP(String token);
     public Response verifyOTP(String token,long otp);
+    public Response purchesSubscription(String token);
+    public Response subscriptionEndingInfo(String token);
 }

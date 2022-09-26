@@ -36,6 +36,12 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/purchesSubscription/{token}")
+    public ResponseEntity<Response>  subscription(@PathVariable String token){
+        Response response=this.bookStoreUserServices.purchesSubscription(token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     /**
      * Purpose-API to user login.
      * @param emailId
@@ -137,6 +143,11 @@ public class UserController {
     @GetMapping("/verifyOTP/{token}")
     public ResponseEntity<Response> OTPVerification(@PathVariable String token,@RequestParam(name = "OTP") long OTP){
         Response response=this.bookStoreUserServices.verifyOTP(token,OTP);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("/expire/{token}")
+    public ResponseEntity<Response> expireDetails(@PathVariable String token){
+        Response response=this.bookStoreUserServices.subscriptionEndingInfo(token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
